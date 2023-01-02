@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+{%block body_block%}
+    <!-- Blog entries-->
+    <div class="col-lg-8">
+        <!-- Featured blog post-->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    {{form.as_p}}
+                    <input type="submit" value="Post" class="btn btn-dark">
+                </form>
+            </div>
+        </div>
+        {%for p in posts%}
+        <div class="card mb-4">
+            <div class="card-body">
+                <a href="#!">{%if p.image%}<img class="card-img-top" src="{{p.image.url}}" alt="..." />{%endif%}</a>
+                <div class="small text-muted">{{p.create_date}} Posted By <a href=""><span class="text-dark">{{p.user}}</span></a></div>
+                <h2 class="card-title">{{p.title}}</h2><hr>
+                <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p> -->
+                <!-- <a class="btn btn-sm btn-dark" href="">Comment</a> 
+                <a class="btn btn-sm btn-dark" href="">like</a>-->
+                <div>
+                    <p>
+                        <button class="btn btn-sm btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#likelist{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">
+                            Like 
+                            <!-- {%for post in p.fetch_posts%}
+                            <a href="{%url 'like' com.id%}" class="btn btn-sm btn-success">Like</a>
+                            {{post.like.all.count}} <span class="text-success">Likes</span>
+                                {{post.post}}
+                                {%endfor%}-->
+                            
+                          </button> 
+                        <button class="btn btn-sm btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">
+                          Add your Comment
+                        </button>
+    
+                        <button class="btn btn-sm btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#commentlist{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">
+                            comments
+                          </button>
+                          
+                      </p>
+                      <div class="collapse" id="collapseExample{{ forloop.counter }}">
+                        <div class="card card-body">
+                            <form action="{%url 'comments' p.id%}" method="post">
+                                {%csrf_token%}
+                                <textarea name="comment" id="" cols="30" rows="3"></textarea>
+                                <input type="submit" value="Add" class="mt-2 btn btn-sm btn-success">
+                            </form>
+                        </div>
+                      </div>
+                      <div class="collapse" id="likelist{{ forloop.counter }}">
+                        <div class="card card-body">
+                            <ul>
+                                {%for post in p.fetch_posts%}
+                                    <li class="list-group-item">
+                                        <a href="{%url 'like' com.id%}" class="btn btn-sm btn-success">Like</a>
+                                        {{post.like.all.count}} <span class="text-success">Likes</span>
+                                        {{post.post}}</li>
+                                {%endfor%}
+                            </ul>
+                        </div>
+                      </div>
+                </div>
+
+                
+            </div>
+        </div>
+        {%endfor%}   
+    </div>
+{%endblock%}
